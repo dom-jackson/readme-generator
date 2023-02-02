@@ -1,6 +1,7 @@
 // TODO: Include packages needed for this application
 const inquirer = require("inquirer");
 const fs = require("fs");
+const generateMarkdown = require("./utils/generateMarkdown");
 // TODO: Create an array of questions for user input
 const questions = [
         {
@@ -54,62 +55,15 @@ const questions = [
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    const readme = `
-# ${data.project}
-    
-## Description
-    
-${data.description}
-    
-## Table of Contents
-    
-* [Installation](#installation)
-* [Usage](#usage)
-* [License](#license)
-* [Tests](#tests)
-* [Questions](#questions)
-* [Contribution](#contribution)
-    
-## Installation
-
-To install necessary dependancies, run the following command:
-
-\`\`\`
-${data.dependancies}
-\`\`\`
-
-## Usage
-
-${data.repo}
-
-## License
-
-This project is licensed under the ${data.license} license.
-    
-## Tests
-    
-To run tests, run the following command:
-
-\`\`\`
-${data.tests}
-\`\`\`
-
-## Questions
-
-If you have any questions about the repo, open an issue or contact me directly on ${data.email}. You can find more of my work at [${data.username}](https://github.com/${data.username}/).
-
-## Contribution
-
-${data.contributors}`;
+    const readme = generateMarkdown(data);
 
     fs.writeFile(fileName, readme, (err) => {
         if (err) {
-            return console.log(err);
+          return console.log(err);
         }
         console.log("Success!");
-    });
-}
-
+      })
+    };
 // TODO: Create a function to initialize app
 function init() {
     inquirer.prompt(questions).then((data) => {
